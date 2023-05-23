@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
+import { Login } from "./pages/login";
 import injectContext from "./store/appContext";
-
 import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import { Register } from "./pages/register ";
+import Private from "./pages/private";
+import ProtectedRoute from "./utils/ProtectedRoute";
+
 
 //create your first component
 const Layout = () => {
@@ -17,7 +17,7 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
@@ -25,12 +25,11 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Login />} path="/" />
+                        <Route element={<Register />} path="/register" />
+                        {/* <Route element={<ProtectedRoute currentUser={currentUser}><Private /></ProtectedRoute>} path="/private" /> */}
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
-                    <Footer />
                 </ScrollToTop>
             </BrowserRouter>
         </div>
