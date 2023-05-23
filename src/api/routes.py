@@ -1,10 +1,10 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from flask import request, jsonify, Blueprint
+from api.models import User
 from api.utils import generate_sitemap, APIException
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import  jwt_required, create_access_token, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 
 api = Blueprint('api', __name__)
@@ -89,3 +89,7 @@ def private_route():
         return jsonify({"msg": "User not found"}), 404
     
     return jsonify(user=user.serialize()), 200
+
+@api.route('/', methods=['GET'])
+def home():
+    return "home"
