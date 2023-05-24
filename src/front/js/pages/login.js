@@ -11,8 +11,8 @@ export const Login = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (store.currentUser !== null) navigate('/private')
-	}, [])
+		if (store.currentUser && !store.currentUser.justRegistered) navigate('/private')
+	}, [store.currentUser])
 
 	return (
 		<>

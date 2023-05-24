@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			error: null,
 		},
 		actions: {
+
 			register: async (e, navigate) => {
 				//Login
 				e.preventDefault()
@@ -37,6 +38,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 
 					} else {
+						// Agregando la propiedad justRegistered al objeto data (currentUser)
+						data.justRegistered = true;
+
 						setStore({
 							currentUser: data,
 							error: null
@@ -76,6 +80,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 
 					} else {
+						// Establece justRegistered a false cuando el usuario inicia sesión
+						data.justRegistered = false;
+
 						setStore({
 							currentUser: data,
 							error: null
@@ -91,21 +98,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			checkCurrentUser: () => { //mantener la información del currentUser
-                if (sessionStorage.getItem('currentUser')) {
-                    setStore({
-                        currentUser: JSON.parse(sessionStorage.getItem('currentUser'))
-                    })
-                }
-            },
+				if (sessionStorage.getItem('currentUser')) {
+					setStore({
+						currentUser: JSON.parse(sessionStorage.getItem('currentUser'))
+					})
+				}
+			},
 
 			logout: () => {
-                if (sessionStorage.getItem('currentUser')) {
-                    setStore({
-                        currentUser: null
-                    })
-                    sessionStorage.removeItem('currentUser')
-                }
-            },
+				if (sessionStorage.getItem('currentUser')) {
+					setStore({
+						currentUser: null
+					})
+					sessionStorage.removeItem('currentUser')
+				}
+			},
+
+			getPrivate: async () => { // Obtener pacientes del usario
+
+				const store = getStore();
+
+				const token = store.currentUser?.access_token; // Obtén el token del usuario actual
+
+				const options = {
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${token}`,
+					},
+				};
+
+				try {
+					const { API_URL } = getStore()
+					const response = await fetch(`${API_URL}/api/private`, options);
+					const data = await response.json();
+
+					if (response.ok) {
+						setStore({
+							currentPatient: data,
+						});
+					} else {
+						console.error('Error getting user:', data);
+					}
+				} catch (error) {
+					console.error('Error getting user:', error);
+				}
+			},
 		}
 	};
 };
