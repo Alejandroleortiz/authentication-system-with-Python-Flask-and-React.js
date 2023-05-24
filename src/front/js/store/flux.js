@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			API_URL: '',
+			API_URL: 'https://alejandroleortiz-fluffy-engine-p4g4rpvqwgwh6jqj-3001.preview.app.github.dev',
 			currentUser: null,
 			error: null,
 		},
