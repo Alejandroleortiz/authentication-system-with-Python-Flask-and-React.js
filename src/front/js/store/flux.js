@@ -88,6 +88,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 							error: null
 						})
 						sessionStorage.setItem('currentUser', JSON.stringify(data))
+
+						// Asegúrate de que el usuario está autenticado antes de llamar a getPrivate
+						await getPrivate();
 						navigate('/private')
 					}
 
